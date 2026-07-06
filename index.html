@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShiftMate — Product Case Study by Marcus Spell</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b1929;--card:#122a42;--line:#1e3a52;
+  --paper:#f4f1ea;--paper-dim:#c9c4b8;
+  --teal:#2dd4bf;--teal-dim:#1a8f80;
+  --amber:#f5b942;--slate:#7b93a8;--red:#e8745c;--green:#4ade80;--purple:#a78bfa;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--paper);font-family:'Source Serif 4',serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(45,212,191,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(45,212,191,0.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0;}
+.wrap{max-width:780px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+
+/* Hero */
+.hero{padding:100px 0 60px;border-bottom:1px solid var(--line);}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';width:8px;height:8px;background:var(--teal);border-radius:50%;box-shadow:0 0 12px var(--teal);animation:pulse 2.4s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+h1.title{font-family:'Source Serif 4',serif;font-weight:600;font-size:clamp(40px,7vw,64px);line-height:1.05;letter-spacing:-1px;margin-bottom:14px;}
+.subtitle{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--slate);margin-bottom:32px;}
+.byline{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--paper-dim);display:flex;gap:18px;flex-wrap:wrap;align-items:center;}
+.byline a{color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal-dim);}
+
+/* Monitor */
+.monitor{margin-top:48px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:24px 28px;position:relative;overflow:hidden;}
+.monitor::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal),transparent);animation:scan 3s linear infinite;}
+@keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.monitor-grid{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;}
+.monitor-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:6px;}
+.monitor-readout{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--paper-dim);}
+.monitor-rate{font-family:'JetBrains Mono',monospace;font-size:42px;font-weight:700;color:var(--teal);text-align:right;line-height:1;}
+.monitor-rate span{font-size:14px;color:var(--slate);font-weight:400;margin-left:4px;}
+.waveform{margin-top:18px;height:36px;width:100%;}
+.waveform path{fill:none;stroke:var(--teal);stroke-width:1.5;opacity:0.7;}
+
+/* Nav */
+.toc{display:flex;gap:6px;flex-wrap:wrap;padding:20px 0;border-bottom:1px solid var(--line);}
+.toc a{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);text-decoration:none;padding:4px 10px;border:1px solid var(--line);border-radius:3px;transition:all 0.2s;}
+.toc a:hover{color:var(--teal);border-color:var(--teal);}
+
+/* Stats */
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.stat{padding:24px 16px;text-align:center;border-right:1px solid var(--line);}
+.stat:last-child{border-right:none;}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--teal);}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);margin-top:4px;}
+
+/* Entries */
+.entry{padding:56px 0;border-bottom:1px solid var(--line);}
+.entry:last-of-type{border-bottom:none;}
+.entry-header{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;flex-wrap:wrap;}
+.entry-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;color:var(--teal);background:rgba(45,212,191,0.08);border:1px solid rgba(45,212,191,0.25);padding:4px 10px;border-radius:3px;white-space:nowrap;}
+.entry-tag.amber{color:var(--amber);background:rgba(245,185,66,0.08);border-color:rgba(245,185,66,0.25);}
+.entry-tag.red{color:var(--red);background:rgba(232,116,92,0.08);border-color:rgba(232,116,92,0.25);}
+.entry-tag.green{color:var(--green);background:rgba(74,222,128,0.08);border-color:rgba(74,222,128,0.25);}
+.entry-tag.purple{color:var(--purple);background:rgba(167,139,250,0.08);border-color:rgba(167,139,250,0.25);}
+h2.entry-title{font-family:'Source Serif 4',serif;font-weight:600;font-size:28px;color:var(--paper);}
+h3.sub{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--paper-dim);margin:28px 0 10px;padding-bottom:8px;border-bottom:1px dashed var(--line);}
+p{color:var(--paper-dim);font-size:17px;margin-bottom:14px;max-width:68ch;}
+p.lead{font-size:19px;color:var(--paper);}
+.quote{border-left:2px solid var(--amber);padding:4px 0 4px 20px;margin:20px 0;font-style:italic;color:var(--paper);font-size:18px;}
+ul.list{list-style:none;margin:14px 0;}
+ul.list li{position:relative;padding-left:22px;margin-bottom:10px;color:var(--paper-dim);font-size:16px;}
+ul.list li::before{content:'—';position:absolute;left:0;color:var(--teal);font-family:'JetBrains Mono',monospace;}
+
+/* Stat callout */
+.stat-callout{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-radius:8px;overflow:hidden;margin:24px 0;}
+.sc{background:var(--card);padding:20px;text-align:center;}
+.sc-val{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--teal);}
+.sc-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);margin-top:4px;}
+.sc-src{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--line);margin-top:6px;border-top:1px solid var(--line);padding-top:6px;}
+
+/* Error chain */
+.error-chain{margin:24px 0;display:flex;flex-direction:column;gap:2px;}
+.ec-row{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--card);border-left:3px solid var(--teal);}
+.ec-row.highlight{background:rgba(232,116,92,0.08);border-left-color:var(--red);}
+.ec-num{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--teal);min-width:80px;}
+.ec-num.red{color:var(--red);}
+.ec-text{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--paper-dim);}
+.ec-src{font-size:10px;color:var(--slate);font-style:italic;margin-top:2px;}
+
+/* TAM/SAM/SOM */
+.tam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0;}
+.tam-box{background:var(--card);border-radius:8px;padding:20px;border-top:3px solid var(--teal);}
+.tam-box.sam{border-top-color:var(--amber);}
+.tam-box.som{border-top-color:var(--green);}
+.tam-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
+.tam-val{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--paper);margin-bottom:4px;}
+.tam-desc{font-size:13px;color:var(--paper-dim);line-height:1.5;}
+.tam-arr{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);margin-top:10px;font-weight:600;}
+.tam-box.sam .tam-arr{color:var(--amber);}
+.tam-box.som .tam-arr{color:var(--green);}
+
+/* Revenue model */
+.rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0;}
+.rev-box{background:var(--card);border-radius:8px;padding:20px;}
+.rev-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:10px;}
+.rev-price{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--teal);margin-bottom:4px;}
+.rev-math{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--paper-dim);line-height:1.8;}
+.rev-arr{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--green);font-weight:600;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);}
+
+/* Decision table */
+.dtable{width:100%;border-collapse:collapse;margin:20px 0;font-size:14px;}
+.dtable th{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);}
+.dtable td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--paper-dim);font-size:14px;}
+.dtable td.dec{font-family:'JetBrains Mono',monospace;color:var(--paper);font-weight:600;font-size:13px;white-space:nowrap;}
+.dtable td.choice{color:var(--teal);font-weight:600;}
+.dtable td.cut{color:var(--red);font-weight:600;}
+.dtable tr:hover td{background:rgba(45,212,191,0.03);}
+
+/* Competitor table */
+.ctable{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px;}
+.ctable th{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--slate);text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);}
+.ctable td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--paper-dim);font-size:13px;line-height:1.5;}
+.ctable td.comp{font-family:'JetBrains Mono',monospace;color:var(--paper);font-weight:600;font-size:12px;}
+.ctable td.edge{color:var(--teal);}
+.ctable tr:hover td{background:rgba(45,212,191,0.03);}
+
+/* USP box */
+.usp-box{background:rgba(45,212,191,0.06);border:1px solid rgba(45,212,191,0.25);border-radius:8px;padding:24px;margin:24px 0;}
+.usp-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.usp-text{font-family:'Source Serif 4',serif;font-size:18px;color:var(--paper);line-height:1.6;font-style:italic;}
+
+/* Challenge box */
+.challenge-box{background:rgba(232,116,92,0.05);border:1px solid rgba(232,116,92,0.2);border-radius:6px;padding:20px 22px;margin:20px 0;}
+.challenge-box .q{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--red);font-weight:600;margin-bottom:8px;}
+.challenge-box .a{font-size:16px;color:var(--paper-dim);line-height:1.6;}
+
+/* Risk box */
+.risk-box{background:rgba(245,185,66,0.05);border:1px solid rgba(245,185,66,0.2);border-radius:6px;padding:20px 22px;margin-top:20px;}
+
+/* Features */
+.feature{margin-bottom:36px;padding-bottom:36px;border-bottom:1px dashed var(--line);}
+.feature:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.feature-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal);margin-bottom:6px;}
+.feature h4{font-family:'Source Serif 4',serif;font-size:21px;font-weight:600;color:var(--paper);margin-bottom:8px;}
+
+/* Learnings */
+.learning{display:grid;grid-template-columns:160px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line);align-items:start;}
+.learning:last-child{border-bottom:none;}
+.learning-tag{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal);font-weight:600;padding-top:2px;}
+.learning p{margin:0;font-size:16px;color:var(--paper-dim);}
+
+/* Footer */
+footer{padding:60px 0 80px;text-align:center;}
+.footer-link{display:inline-block;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--teal);text-decoration:none;border:1px solid var(--teal-dim);padding:10px 22px;border-radius:4px;transition:all 0.2s;}
+.footer-link:hover{background:rgba(45,212,191,0.1);}
+
+@media(max-width:600px){
+  .hero{padding:70px 0 40px;}
+  .stat-strip{grid-template-columns:repeat(2,1fr);}
+  .stat:nth-child(2){border-right:none;}
+  .stat{border-bottom:1px solid var(--line);}
+  .stat:nth-child(3),.stat:nth-child(4){border-bottom:none;}
+  .monitor-grid{grid-template-columns:1fr;}
+  .monitor-rate{text-align:left;font-size:34px;}
+  .learning{grid-template-columns:1fr;gap:4px;}
+  .tam-grid{grid-template-columns:1fr;}
+  .rev-grid{grid-template-columns:1fr;}
+  .stat-callout{grid-template-columns:1fr;}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Product Case Study · Active Beta</div>
+    <h1 class="title">ShiftMate</h1>
+    <div class="subtitle" style="font-family:'JetBrains Mono',monospace;">An AI-powered clinical companion for nurses — built solo, shipped in 4 weeks</div>
+    <div class="byline">
+      <span>Marcus Spell</span><span>·</span>
+      <span>Founder &amp; Product Lead</span><span>·</span>
+      <a href="https://shiftmateai.vercel.app" target="_blank">shiftmateai.vercel.app ↗</a>
+    </div>
+    <div class="monitor">
+      <div class="monitor-grid">
+        <div>
+          <div class="monitor-label">Room 4 · Dopamine · 400mg/250mL</div>
+          <div class="monitor-readout" id="readout">Running: 13.1 mL/hr · Bag replacement in 2h 47m</div>
+        </div>
+        <div class="monitor-rate" id="rateVal">13.1<span>mL/hr</span></div>
+      </div>
+      <svg class="waveform" viewBox="0 0 400 36" preserveAspectRatio="none">
+        <path id="wavePath" d="M0,18 L400,18"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- NAV -->
+  <nav class="toc">
+    <a href="#problem">Problem</a>
+    <a href="#market">Market</a>
+    <a href="#discovery">Discovery</a>
+    <a href="#decisions">Decisions</a>
+    <a href="#solution">Solution</a>
+    <a href="#competition">Competition</a>
+    <a href="#business">Business Model</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#learnings">Learnings</a>
+  </nav>
+
+  <!-- STATS -->
+  <section class="stat-strip">
+    <div class="stat"><div class="stat-val">4</div><div class="stat-label">weeks to ship</div></div>
+    <div class="stat"><div class="stat-val">3+</div><div class="stat-label">nurses in beta</div></div>
+    <div class="stat"><div class="stat-val">1</div><div class="stat-label">person built it</div></div>
+    <div class="stat"><div class="stat-val">$0</div><div class="stat-label">hosting cost</div></div>
+  </section>
+
+  <!-- 01 PROBLEM -->
+  <section class="entry" id="problem">
+    <div class="entry-header">
+      <span class="entry-tag">CHIEF COMPLAINT</span>
+      <h2 class="entry-title">The Problem</h2>
+    </div>
+    <h3 class="sub">Presenting symptom: IV calculation errors under pressure</h3>
+    <p>IV drip rate calculations are one of the most common tasks a nurse performs on shift. Changing a rate from 100mL over 60 minutes to 100mL over 90 minutes requires quick math under pressure, often while managing multiple patients at once. Errors here can directly harm patients.</p>
+    <h3 class="sub">Underlying condition: the unsafe question</h3>
+    <p>Primary research with an ICU nurse (ongoing), plus informal input from her colleagues, surfaced a bigger and far less obvious problem. Nursing units are often hierarchical and quick to judge. Asking a basic clinical question, even one that could prevent harm, can carry real professional consequences including performance write-ups.</p>
+    <p class="lead">A nurse who asks "can you hang potassium for an IV push?" is asking a question with an obvious answer to experienced colleagues. Asking it out loud signals inexperience in a way that follows a nurse's reputation. So nurses don't ask. They guess. That puts patients at risk.</p>
+    <p>This insight reshaped the product, with the calculator becoming the entry point and the private clinical Q&amp;A serving as the differentiated value.</p>
+  </section>
+
+  <!-- 02 MARKET -->
+  <section class="entry" id="market">
+    <div class="entry-header">
+      <span class="entry-tag">EPIDEMIOLOGY</span>
+      <h2 class="entry-title">Market &amp; Why Now</h2>
+    </div>
+
+    <h3 class="sub">The scale of the problem</h3>
+    <p>The math chains cleanly from a single credible base number (US hospital admissions) through IV exposure, error rate, and bedside administration errors.</p>
+
+    <div class="error-chain">
+      <div class="ec-row">
+        <div><div class="ec-num">33.7M</div><div class="ec-src">AHA, 2022</div></div>
+        <div class="ec-text">US hospital inpatient admissions per year — the base population</div>
+      </div>
+      <div class="ec-row">
+        <div><div class="ec-num">~30.3M</div><div class="ec-src">PMC / NCBI</div></div>
+        <div class="ec-text">Patients receiving IV therapy (90% of inpatients) — directly in the path of IV administration errors</div>
+      </div>
+      <div class="ec-row">
+        <div><div class="ec-num">~2.2M</div><div class="ec-src">StatPearls, 2024</div></div>
+        <div class="ec-text">Hospital medication errors annually (6.5 per 100 admissions)</div>
+      </div>
+      <div class="ec-row highlight">
+        <div><div class="ec-num red">~900K</div><div class="ec-src">Published incident data</div></div>
+        <div class="ec-text">Administration errors at the bedside — 41% of wrong-dose errors occur at the nurse level, not prescribing or pharmacy. This is where ShiftMate lives.</div>
+      </div>
+    </div>
+
+    <div class="stat-callout" style="margin-top:28px;">
+      <div class="sc">
+        <div class="sc-val">$3.5B</div>
+        <div class="sc-label">Extra treatment cost</div>
+        <div class="sc-src">AMCP — annual drug-related injury costs</div>
+      </div>
+      <div class="sc">
+        <div class="sc-val">1.5M</div>
+        <div class="sc-label">People affected annually</div>
+        <div class="sc-src">AMCP — all healthcare settings</div>
+      </div>
+      <div class="sc">
+        <div class="sc-val">59%</div>
+        <div class="sc-label">Wrong-dose errors are overdoses</div>
+        <div class="sc-src">Published incident data — administration stage</div>
+      </div>
+    </div>
+
+    <h3 class="sub">The nurse workforce</h3>
+    <div class="stat-callout">
+      <div class="sc">
+        <div class="sc-val">5.2M</div>
+        <div class="sc-label">RNs in the US</div>
+        <div class="sc-src">AACN, May 2026</div>
+      </div>
+      <div class="sc">
+        <div class="sc-val">29M</div>
+        <div class="sc-label">Nurses globally</div>
+        <div class="sc-src">World Health Organization</div>
+      </div>
+      <div class="sc">
+        <div class="sc-val">150K</div>
+        <div class="sc-label">New nurses per year (US)</div>
+        <div class="sc-src">2017–2021 average, 88% active</div>
+      </div>
+    </div>
+
+    <p>40% of registered nurses plan to retire in the next 5 years. The median age is 50. That means a new guard of digital-native nurses is entering the workforce, more likely to adopt mobile-first clinical tools than the generation they're replacing.</p>
+
+    <h3 class="sub">Why now</h3>
+    <ul class="list">
+      <li>AI capable of natural language understanding and real-time clinical support is available for the first time at near-zero marginal cost. The problem is decades old. The solution is newly possible.</li>
+      <li>Mobile-first PWA deployment removes the App Store friction that historically made clinical tools slow to adopt</li>
+      <li>The incoming nurse generation is digital-native. Tool adoption patterns are shifting.</li>
+      <li>Hospital AI adoption is accelerating: 8% CAGR in hospital digital infrastructure through 2033 (Statista) creates a receptive institutional buying environment</li>
+      <li>Post-pandemic burnout and staffing pressure means any tool that reduces cognitive load on shift has a compelling value proposition to both nurses and hospital administrators</li>
+    </ul>
+  </section>
+
+  <!-- 03 DISCOVERY -->
+  <section class="entry" id="discovery">
+    <div class="entry-header">
+      <span class="entry-tag">HISTORY</span>
+      <h2 class="entry-title">Discovery &amp; Validation</h2>
+    </div>
+    <h3 class="sub">Primary research</h3>
+    <ul class="list">
+      <li>Ongoing primary research with an ICU nurse, daily user, plus informal input from colleagues on real shifts</li>
+      <li>Found two distinct unmet needs: calculation speed under pressure, and access to clinical knowledge without social risk</li>
+      <li>Confirmed existing tools (paper, mental math, basic calculators, legacy desktop apps) had no natural language or voice input</li>
+      <li>Validated that nurses use personal phones on shift, which shaped the PWA decision over a native app</li>
+    </ul>
+    <h3 class="sub">The insight that shaped the product</h3>
+    <div class="quote">"I can't ask my charge nurse this without it going on my record."</div>
+    <p>That single sentence defined the product's core value: a private, judgment-free clinical companion, not just a faster calculator. The "Ask Anything" feature wasn't in the original concept. It came directly from this.</p>
+    <h3 class="sub">The mentor challenge</h3>
+    <div class="challenge-box">
+      <div class="q">Why wouldn't a nurse just use ChatGPT?</div>
+      <div class="a">A general chatbot can technically answer clinical questions. What it can't replicate is workflow integration and trust framing. ShiftMate lives where the work happens, connects the calculator and Q&amp;A in one context, and is explicitly positioned as judgment-free for clinical questions. "No judgment here, ever" is doing real work in an environment where asking the wrong question has professional consequences. The technical moat deepens with the drug reference database — clinically sourced data a general AI can't replicate through positioning alone.</div>
+    </div>
+  </section>
+
+  <!-- 04 DECISIONS -->
+  <section class="entry" id="decisions">
+    <div class="entry-header">
+      <span class="entry-tag">ASSESSMENT</span>
+      <h2 class="entry-title">Key Product Decisions</h2>
+    </div>
+    <p>Every decision was made against one constraint: ship a beta nurses would actually use on real shifts in under 4 weeks.</p>
+    <table class="dtable">
+      <tr><th>Decision</th><th>Outcome</th><th>Why</th></tr>
+      <tr><td class="dec">Data storage</td><td class="choice">Local device only</td><td>Zero PHI risk, nurses control their own data, no HIPAA exposure</td></tr>
+      <tr><td class="dec">Auth model</td><td class="choice">No accounts</td><td>Open link, accept disclaimer, start using — zero friction</td></tr>
+      <tr><td class="dec">AI input</td><td class="choice">Voice + natural language</td><td>Nurses can't fill out forms standing up — voice is the right modality</td></tr>
+      <tr><td class="dec">Deployment</td><td class="choice">PWA on Vercel</td><td>No App Store friction for beta — Add to Home Screen is instant</td></tr>
+      <tr><td class="dec">Staging workflow</td><td class="choice">Separate branch</td><td>Nurses are on real shifts — never push untested code to production</td></tr>
+      <tr><td class="dec">Drug DB</td><td class="cut">Held post-beta</td><td>Built and ready — held pending beta validation, don't build ahead of signal</td></tr>
+      <tr><td class="dec">Shift handoff</td><td class="cut">Cut entirely</td><td>Hospital systems already track this — confirmed in discovery</td></tr>
+      <tr><td class="dec">Cloud sync</td><td class="cut">Cut entirely</td><td>HIPAA exposure with no offsetting benefit at beta scale</td></tr>
+      <tr><td class="dec">Background alerts</td><td class="cut">Deferred to v2</td><td>iOS PWA suspends JS on lock screen — native app (Capacitor) is the honest fix</td></tr>
+    </table>
+  </section>
+
+  <!-- 05 SOLUTION -->
+  <section class="entry" id="solution">
+    <div class="entry-header">
+      <span class="entry-tag">TREATMENT PLAN</span>
+      <h2 class="entry-title">The Solution</h2>
+    </div>
+    <div class="feature">
+      <div class="feature-num">FEATURE 01</div>
+      <h4>AI natural language IV calculator</h4>
+      <p>Nurses type or speak naturally: "change room 4 dopamine from 100mL over 60 min to 90 min." The AI parses, finds the right line, updates the rate, confirms in plain English. No forms, no navigation.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">FEATURE 02</div>
+      <h4>Voice input with Web Speech API</h4>
+      <p>One tap starts. A second tap stops and triggers the parse. Nurses are on their feet holding equipment, and a form is not a realistic interaction model on shift.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">FEATURE 03</div>
+      <h4>Multi-line shift tracker with CONT / BOLUS modes</h4>
+      <p>A single toggle switches between continuous infusion and bolus. Continuous lines track bag replacement. Bolus lines count down to completion and auto-reset for the next dose. Different clinical contexts, different timer behavior.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">FEATURE 04 — Beta feedback drove this</div>
+      <h4>Bag replacement countdown</h4>
+      <p>Surfaced in the first 24 hours of real shift use. Bag life calculates automatically from volume and rate with no extra input. Nurse taps "Hung now." Notifications fire at 10 and 5 minutes before the bag runs dry. The insight: nurses need to arrive before the bag empties, not after, to avoid waking the patient.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">FEATURE 05 — Beta feedback drove this</div>
+      <h4>Dose calculator with weight-based dosing</h4>
+      <p>When a doctor orders "dopamine at 5 mcg/kg/min" the nurse needs to know what mL/hr to set on the pump. The dose calculator takes ordered dose, dose unit, patient weight (kg or lbs), and bag concentration, and outputs the pump rate. Supports ten common dosing units including mcg/kg/min, mg/kg/hr, and units/hr.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">FEATURE 06</div>
+      <h4>Private Clinical Q&amp;A: Ask Anything</h4>
+      <p>A floating button opens a full-screen confidential chat. The AI is prompted as a non-judgmental clinical assistant. Opening message: "No judgment here, ever." This addresses the real problem: not the math, the fear of asking.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-num">FEATURE 07</div>
+      <h4>iOS install prompt</h4>
+      <p>On first visit from mobile Safari, a 3-step guide to home screen installation appears automatically. The app teaches itself. No instruction burden on the user.</p>
+    </div>
+    <div class="risk-box">
+      <p style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;margin-bottom:10px;">Risks &amp; Mitigations</p>
+      <p style="font-size:15px;margin:0;">Because ShiftMate provides clinical information, accuracy was prioritized over completeness. The product includes first-launch disclaimers, stores no PHI, and positions AI responses as informational support rather than medical direction. The drug reference database, when shipped, will use clinically-sourced data with source attribution. Background notifications on iOS are an honest limitation of the PWA model — documented and deferred to the native app phase.</p>
+    </div>
+  </section>
+
+  <!-- 06 COMPETITION -->
+  <section class="entry" id="competition">
+    <div class="entry-header">
+      <span class="entry-tag">DIFFERENTIAL DIAGNOSIS</span>
+      <h2 class="entry-title">Competitive Landscape</h2>
+    </div>
+    <p>No single tool combines IV calculation, bag management, weight-based dose calculation, and private AI clinical Q&amp;A in a mobile-first, voice-driven interface designed specifically for bedside nursing.</p>
+
+    <table class="ctable">
+      <tr><th>Competitor</th><th>What it does</th><th>Why nurses use it</th><th>ShiftMate's edge</th></tr>
+      <tr>
+        <td class="comp">MDCalc</td>
+        <td>Medical calculators and clinical scoring tools</td>
+        <td>Free, comprehensive, clinically trusted</td>
+        <td class="edge">Reference tool, not a workflow tool. No voice, no line tracking, no Q&amp;A. Nurses open it for one calculation then close it. ShiftMate lives on the shift.</td>
+      </tr>
+      <tr>
+        <td class="comp">ClinCalc</td>
+        <td>Drug dosing and IV calculators</td>
+        <td>Free, fast, simple</td>
+        <td class="edge">Single calculation with no context or continuity. No AI, no natural language, no shift-level tracking.</td>
+      </tr>
+      <tr>
+        <td class="comp">Epocrates ($14.99/mo)</td>
+        <td>Drug reference and clinical decision support</td>
+        <td>Trusted, comprehensive. Physician-focused.</td>
+        <td class="edge">Not designed for nurses. No IV rate workflow. No private Q&amp;A. Doesn't address psychological safety at all.</td>
+      </tr>
+      <tr>
+        <td class="comp">Medscape</td>
+        <td>Clinical reference, drug information, news</td>
+        <td>Free, broad, trusted brand</td>
+        <td class="edge">General reference, not a shift workflow tool. No calculation features. No AI interaction layer.</td>
+      </tr>
+      <tr>
+        <td class="comp">ChatGPT / Claude</td>
+        <td>General AI assistant</td>
+        <td>Free, can answer clinical questions</td>
+        <td class="edge">No nurse-specific framing, no workflow integration, no IV tracking, no clinical trust positioning. A general tool used for a specific purpose is never as good as a purpose-built one.</td>
+      </tr>
+      <tr>
+        <td class="comp">Epic / Cerner (EHR)</td>
+        <td>Full clinical record system</td>
+        <td>Mandated by hospital</td>
+        <td class="edge">Slow, desktop-focused, requires login, not designed for quick bedside calculation. ShiftMate is the fast mobile companion for what EHRs don't do well at the point of care.</td>
+      </tr>
+    </table>
+
+    <div class="usp-box">
+      <div class="usp-label">Unique Selling Proposition</div>
+      <div class="usp-text">"ShiftMate is the only tool that combines IV rate calculation, bag management, weight-based dose calculation, and private AI clinical Q&amp;A in a single mobile-first, voice-driven interface designed specifically for the pressures of bedside nursing."</div>
+    </div>
+  </section>
+
+  <!-- 07 BUSINESS MODEL -->
+  <section class="entry" id="business">
+    <div class="entry-header">
+      <span class="entry-tag">PROGNOSIS</span>
+      <h2 class="entry-title">Business Model</h2>
+    </div>
+
+    <h3 class="sub">TAM / SAM / SOM</h3>
+    <div class="tam-grid">
+      <div class="tam-box">
+        <div class="tam-label">TAM — Total Addressable</div>
+        <div class="tam-val">29M nurses</div>
+        <div class="tam-desc">Global nurse population. The full universe if ShiftMate scales internationally. (WHO)</div>
+        <div class="tam-arr">Global market</div>
+      </div>
+      <div class="tam-box sam">
+        <div class="tam-label">SAM — Serviceable</div>
+        <div class="tam-val">4.6M nurses</div>
+        <div class="tam-desc">Active US nurses (88% of 5.2M RNs). Near-term geographic focus — US first. (AACN 2026)</div>
+        <div class="tam-arr" style="color:var(--amber);">US market · Year 1–2</div>
+      </div>
+      <div class="tam-box som">
+        <div class="tam-label">SOM — Obtainable</div>
+        <div class="tam-val">~138K users</div>
+        <div class="tam-desc">3% conversion of active US nurses willing to pay for AI clinical tools. Conservative, 3-year outlook.</div>
+        <div class="tam-arr" style="color:var(--green);">Year 1–3 target</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Two revenue paths</h3>
+    <ul class="list">
+      <li><strong style="color:var(--paper);">Path A — B2C Nurse Subscription:</strong> Individual nurses pay a monthly fee. The freemium model proves value before the institutional sale. Benchmarked against comparable clinical reference tools already in market.</li>
+      <li><strong style="color:var(--paper);">Path B — B2B Hospital License:</strong> Sell to hospital systems, not individual nurses. The value proposition to administrators is patient safety and liability reduction, not nurse productivity. Per-seat or per-facility pricing. This is the larger revenue path.</li>
+    </ul>
+
+    <h3 class="sub">Scale path</h3>
+    <ul class="list">
+      <li><strong style="color:var(--paper);">0 to 1K:</strong> Unit-level word of mouth — nurses talk, especially about tools that solve real shift problems</li>
+      <li><strong style="color:var(--paper);">1K to 10K:</strong> Hospital champion cultivation — identify advocates, treat them as co-builders, drive floor-by-floor adoption</li>
+      <li><strong style="color:var(--paper);">10K to 100K:</strong> Nursing school partnerships — 1,700 programs graduating 180K nurses per year. ShiftMate as the clinical rotation tool means every cohort enters the workforce already using it</li>
+    </ul>
+
+    <h3 class="sub">Long-term value layer</h3>
+    <p>The drug reference database, once built with clinically-sourced data, has standalone licensing value to EHR vendors and clinical decision support platforms. That's a separate but high-value revenue stream beyond the consumer and hospital paths.</p>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="entry" id="roadmap">
+    <div class="entry-header">
+      <span class="entry-tag">PLAN OF CARE</span>
+      <h2 class="entry-title">Product Roadmap</h2>
+    </div>
+    <p>Three phases from MVP validation through enterprise platform. Phases are driven by user signal, not arbitrary timelines.</p>
+
+    <!-- Phase 1 -->
+    <div style="margin:32px 0;border-left:3px solid var(--green);padding-left:20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:6px;">PHASE 1 · COMPLETE</div>
+      <h3 style="font-family:'Source Serif 4',serif;font-size:21px;font-weight:600;color:var(--paper);margin-bottom:14px;border:none;padding:0;text-transform:none;">MVP — Calculation &amp; Entry-Level AI</h3>
+      <ul class="list">
+        <li>Voice-first IV rate calculator with natural language input</li>
+        <li>Multi-line shift tracker with CONT/BOLUS modes</li>
+        <li>Bag replacement countdown from volume and rate</li>
+        <li>Weight-based dose calculator: mcg/kg/min, mg/kg/hr, 10 dose units</li>
+        <li>Private AI clinical Q&amp;A: Ask Anything</li>
+        <li>iOS install prompt and first-launch disclaimer</li>
+        <li>GA4 analytics with custom events from day one</li>
+        <li style="color:var(--green);">Validation gate: confirm nurses find core value before building further</li>
+      </ul>
+    </div>
+
+    <!-- Phase 2 -->
+    <div style="margin:32px 0;border-left:3px solid var(--teal);padding-left:20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">PHASE 2 · IN PLANNING</div>
+      <h3 style="font-family:'Source Serif 4',serif;font-size:21px;font-weight:600;color:var(--paper);margin-bottom:14px;border:none;padding:0;text-transform:none;">V2 — Clinical Intelligence Layer</h3>
+      <ul class="list">
+        <li>Initial drug reference database: 60+ common IV medications with dosing ranges, high-alert flags, and incompatibility warnings</li>
+        <li>AI citation layer: every Q&amp;A answer cites the source document or clinical reference. Nurses see where answers come from.</li>
+        <li>Document upload for nursing schools and small clinics. Institutions can add their own protocols and the AI learns from them</li>
+        <li>Native app via Capacitor: enables real background notifications when the phone is locked</li>
+        <li>Alert polish: background bag replacement and bolus notifications while the phone is locked</li>
+      </ul>
+    </div>
+
+    <!-- Phase 3 -->
+    <div style="margin:32px 0;border-left:3px solid var(--purple);padding-left:20px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:6px;">PHASE 3 · FUTURE</div>
+      <h3 style="font-family:'Source Serif 4',serif;font-size:21px;font-weight:600;color:var(--paper);margin-bottom:14px;border:none;padding:0;text-transform:none;">Enterprise — Hospital Platform</h3>
+      <ul class="list">
+        <li>B2B hospital licensing: sell to systems, not individuals</li>
+        <li style="color:var(--paper);font-weight:500;">Hospital policy-trained AI: connect the hospital's own protocols and within days the AI operates by their specific practices. No other tool offers this.</li>
+        <li>Full citation layer: every AI response cites the specific hospital policy or clinical source it draws from</li>
+        <li>SharePoint / intranet integration: connect ShiftMate to existing hospital infrastructure without fighting IT procurement</li>
+        <li>Institutional admin dashboard: usage analytics, compliance reporting, and seat management</li>
+        <li>HIPAA compliance and SOC 2 certification: required for hospital procurement</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 08 METRICS -->
+  <section class="entry" id="metrics">
+    <div class="entry-header">
+      <span class="entry-tag">VITALS</span>
+      <h2 class="entry-title">Metrics &amp; Beta</h2>
+    </div>
+    <p>GA4 was instrumented before the first external user with custom events tracking every meaningful interaction. Data is clean from day one.</p>
+    <h3 class="sub">Custom events tracked</h3>
+    <ul class="list">
+      <li>disclaimer_accepted: counts true unique new users</li>
+      <li>line_added (source: ai or manual): measures calculator adoption</li>
+      <li>ai_parse (method: voice or text, action: add or update): measures AI feature usage</li>
+      <li>chat_opened: measures Ask Anything adoption</li>
+      <li>timer_started (type: continuous or bolus): measures timer engagement</li>
+      <li>bag_started: measures bag replacement feature adoption</li>
+    </ul>
+    <h3 class="sub">Primary signals being watched</h3>
+    <ul class="list">
+      <li>Weekly active users: the primary retention signal for shift workers</li>
+      <li>Returning sessions: did a nurse come back on their next shift?</li>
+      <li>Voice vs text input ratio: informs mobile UX priority</li>
+      <li>Day-7 and Day-30 retention: the core PMF gate</li>
+    </ul>
+    <h3 class="sub">What beta has already validated</h3>
+    <ul class="list">
+      <li>Timer request surfaced within 24 hours of first real shift usage</li>
+      <li>Bag replacement countdown identified as the primary need over elapsed count-up</li>
+      <li>Unit selectors (mg, mcg, g) needed for non-volume drug entries</li>
+      <li>Dose calculator need confirmed by concentration question from active beta user</li>
+      <li>Layout feedback (5-column grid too cramped on vertical phone) addressed immediately</li>
+      <li>Voice parsing race condition identified and fixed before production push</li>
+    </ul>
+  </section>
+
+  <!-- 09 LEARNINGS -->
+  <section class="entry" id="learnings">
+    <div class="entry-header">
+      <span class="entry-tag">DISCHARGE NOTES</span>
+      <h2 class="entry-title">What I Learned</h2>
+    </div>
+    <div class="learning"><div class="learning-tag">DISCOVERY FIRST</div><p>The real problem is almost never the surface problem. The calculator was obvious. The unsafe question took a dinner conversation to find.</p></div>
+    <div class="learning"><div class="learning-tag">VELOCITY</div><p>Shipping something imperfect to real users teaches more than any amount of planning. Beta feedback in the first 24 hours reshaped the roadmap more than weeks of speculation would have.</p></div>
+    <div class="learning"><div class="learning-tag">SCOPE DISCIPLINE</div><p>Every feature that didn't ship was a decision, not a failure. The drug database was built and ready. Holding it back was right — beta asked for timers and dose calculators instead.</p></div>
+    <div class="learning"><div class="learning-tag">HONESTY</div><p>When a mentor challenged the ChatGPT objection, the right answer wasn't to deflect. Acknowledging what's thin and knowing what closes the gap is more credible than over-defending.</p></div>
+    <div class="learning"><div class="learning-tag">STAGING</div><p>Nurses are on real shifts with real patients. A staging branch before every production push isn't optional — it's the minimum bar for clinical tools.</p></div>
+    <div class="learning"><div class="learning-tag">PROXIMITY</div><p>The sharpest insight in this project came from one dinner conversation. You can't replicate that kind of access — and it's why the product is better than what a team building from the outside would have made.</p></div>
+    <div class="learning"><div class="learning-tag">BIAS TO ACTION</div><p>A live URL is worth more than a perfect spec. The case study you're reading right now exists because the product does.</p></div>
+  </section>
+
+  <footer>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--slate);">Built solo by Marcus Spell — React, Vite, Claude AI (Anthropic), Web Speech API, Vercel</div>
+    <a class="footer-link" href="https://shiftmateai.vercel.app" target="_blank">Try ShiftMate ↗</a>
+  </footer>
+
+</div>
+<script>
+const rateEl=document.getElementById('rateVal');
+const readoutEl=document.getElementById('readout');
+const wave=document.getElementById('wavePath');
+let t=0;
+function tick(){
+  t+=0.04;
+  const rate=(13.1+Math.sin(t)*0.3).toFixed(1);
+  rateEl.innerHTML=rate+'<span>mL/hr</span>';
+  const bagMins=Math.max(0,167-Math.floor(t*0.5));
+  const bh=Math.floor(bagMins/60),bm=bagMins%60;
+  readoutEl.textContent=`Running: ${rate} mL/hr · Bag replacement in ${bh}h ${String(bm).padStart(2,'0')}m`;
+  let d='M0,18 ';
+  for(let x=0;x<=400;x+=8){
+    const ph=(x/400)*Math.PI*4+t;
+    let y=18+Math.sin(ph)*1.5;
+    if(x%80<5){y=18-13;}else if(x%80<9){y=18+9;}
+    d+=`L${x},${y} `;
+  }
+  wave.setAttribute('d',d);
+  requestAnimationFrame(tick);
+}
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){tick();}
+</script>
+</body>
+</html>
