@@ -245,7 +245,7 @@ footer{padding:60px 0 80px;text-align:center;}
     <div class="error-chain">
       <div class="ec-row">
         <div><div class="ec-num">33.7M</div><div class="ec-src">AHA, 2022</div></div>
-        <div class="ec-text">US hospital inpatient admissions per year — the base population</div>
+        <div class="ec-text">US hospital inpatient admissions per year</div>
       </div>
       <div class="ec-row">
         <div><div class="ec-num">~30.3M</div><div class="ec-src">PMC / NCBI</div></div>
@@ -343,14 +343,14 @@ footer{padding:60px 0 80px;text-align:center;}
     <table class="dtable">
       <tr><th>Decision</th><th>Outcome</th><th>Why</th></tr>
       <tr><td class="dec">Data storage</td><td class="choice">Local device only</td><td>Zero PHI risk, nurses control their own data, no HIPAA exposure</td></tr>
-      <tr><td class="dec">Auth model</td><td class="choice">No accounts</td><td>Open link, accept disclaimer, start using — zero friction</td></tr>
-      <tr><td class="dec">AI input</td><td class="choice">Voice + natural language</td><td>Nurses can't fill out forms standing up — voice is the right modality</td></tr>
-      <tr><td class="dec">Deployment</td><td class="choice">PWA on Vercel</td><td>No App Store friction for beta — Add to Home Screen is instant</td></tr>
-      <tr><td class="dec">Staging workflow</td><td class="choice">Separate branch</td><td>Nurses are on real shifts — never push untested code to production</td></tr>
-      <tr><td class="dec">Drug DB</td><td class="cut">Held post-beta</td><td>Built and ready — held pending beta validation, don't build ahead of signal</td></tr>
-      <tr><td class="dec">Shift handoff</td><td class="cut">Cut entirely</td><td>Hospital systems already track this — confirmed in discovery</td></tr>
+      <tr><td class="dec">Auth model</td><td class="choice">No accounts</td><td>Open link, accept disclaimer, start using, zero friction</td></tr>
+      <tr><td class="dec">AI input</td><td class="choice">Voice + natural language</td><td>If nurses can't fill out forms in the field, voice is the right modality</td></tr>
+      <tr><td class="dec">Deployment</td><td class="choice">PWA on Vercel</td><td>No App Store friction for beta. Add to Home Screen is instant</td></tr>
+      <tr><td class="dec">Staging workflow</td><td class="choice">Separate branch</td><td>Nurses on real shifts: Never push untested code to production</td></tr>
+      <tr><td class="dec">Drug DB</td><td class="cut">Held post-beta</td><td>Built and ready: Held pending validation, don't build ahead of signal</td></tr>
+      <tr><td class="dec">Shift handoff</td><td class="cut">Cut entirely</td><td>Hospital systems already track this (confirmed in discovery)</td></tr>
       <tr><td class="dec">Cloud sync</td><td class="cut">Cut entirely</td><td>HIPAA exposure with no offsetting benefit at beta scale</td></tr>
-      <tr><td class="dec">Background alerts</td><td class="cut">Deferred to v2</td><td>iOS PWA suspends JS on lock screen — native app (Capacitor) is the honest fix</td></tr>
+      <tr><td class="dec">Background alerts</td><td class="cut">Deferred to v2</td><td>iOS PWA suspends JS on lock screen (native app is the fix)</td></tr>
     </table>
   </section>
 
